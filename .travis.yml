@@ -1,0 +1,23 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t rayfly92/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true raylfly92/react-test npm test
+
+after_success:
+  - docker build -t raylfly92/multi-client ./client
+  - docker build -t raylfly92/multi-nginx ./nginx
+  - docker build -t raylfly92/multi-server ./server
+  - docker build -t raylfly92/multi-worker ./worker
+  # Login in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push to docker hub
+  - docker push raylfly92/multi-client
+  - docker push raylfly92/multi-nginx
+  - docker push raylfly92/multi-server
+  - docker push raylfly92/multi-worker
