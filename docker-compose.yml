@@ -1,11 +1,11 @@
 version: "3"
 services:
   client:
-    image: "raylfly/multi-client"
+    image: "raylfly92/multi-client"
     mem_limit: 128m
     hostname: client
   server:
-    image: "raylfly/multi-server"
+    image: "raylfly92/multi-server"
     mem_limit: 128m
     hostname: api
     environment:
@@ -17,14 +17,14 @@ services:
       - PGPASSWORD=$PGPASSWORD
       - PGPORT=$PGPORT
   worker:
-    image: "raylfly/multi-worker"
+    image: "raylfly92/multi-worker"
     mem_limit: 128m
     hostname: worker
     environment:
       - REDIS_HOST=$REDIS_HOST
       - REDIS_PORT=$REDIS_PORT
   nginx:
-    image: "raylfly/multi-nginx"
+    image: "raylfly92/multi-nginx"
     mem_limit: 128m
     hostname: nginx
     ports:
